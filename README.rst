@@ -15,8 +15,17 @@ Quick start
         'members',
     ]
 
-2. Include the polls URLconf in your project urls.py like this::
+2. Get TOKEN_SECRET from env vars
+
+   import os
+   os.environ.get("TOKEN_SECRET")
+
+3. Include the members URLconf in your project urls.py like this::
 
     url(r'^members/', include('members.urls')),
 
-3. Visit http://127.0.0.1:8000/members/ to validate signed tokens.
+4. Set TOKEN_SECRET in env vars
+
+   export TOKEN_SECRET=long-secret-token
+
+5. Visit http://127.0.0.1:8000/members/ to validate signed tokens.
