@@ -33,4 +33,4 @@ def members(request):
     # login user without password
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     django_login(request, user)
-    return redirect(reverse("home"))
+    return redirect("/pages/instructions/")
