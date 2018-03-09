@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login as django_login
 from django.urls import reverse
 from django.shortcuts import redirect
-from django.http import HttpResponse
 
 from .utils import verify_link
 
@@ -23,14 +22,15 @@ def members(request):
         user, created = User.objects.get_or_create(email=u, defaults={
             "username": username
         })
-
-        if created:
-            user.set_unusable_password()
-            user.save()
-
-        # login user without password
-        user.backend = 'django.contrib.auth.backends.ModelBackend'
-        django_login(request, user)
-        return redirect(reverse("home"))
     else:
-        return render(request, "members/401.html", status=401)
+        # TEMP FIX, third party sometimes provide invalid user ids
+        user, created = User.objects.get_or_create(username='Demo')
+
+    if created:
+        user.set_unusable_password()
+        user.save()
+
+    # login user without password
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
+    django_login(request, user)
+    return redirect(reverse("home"))
